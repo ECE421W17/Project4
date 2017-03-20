@@ -1,0 +1,106 @@
+[
+  {
+    "name": "Victory",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Hold data pertaining to victory condition"
+    ],
+    "collaborators": [
+      "Game",
+      "Player"
+    ]
+  },
+  {
+    "name": "Player",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Hold data about a player"
+    ],
+    "collaborators": [
+      "Game",
+      "Victory"
+    ]
+  },
+  {
+    "name": "Piece",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Hold data pertaining to a piece on the board"
+    ],
+    "collaborators": [
+      "Board",
+      "Game"
+    ]
+  },
+  {
+    "name": "Board",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Keep track of board state, such as piece positions",
+      "Determine if a given winning pattern appears on the board",
+      "Inform other classes on what columns are available to new pieces"
+    ],
+    "collaborators": [
+      "Game",
+      "Piece"
+    ]
+  },
+  {
+    "name": "Game",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Manipulate the board according to player requests",
+      "Determine what's the winning condition for each player",
+      "Determine what piece categories exist",
+      "Inform the Controller when a player has won the game"
+    ],
+    "collaborators": [
+      "Board",
+      "Piece",
+      "Player",
+      "Victory"
+    ]
+  },
+  {
+    "name": "OttoNToot",
+    "superclasses": "Game",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Hold the rules for the game Otto and Toot"
+    ],
+    "collaborators": [
+      "Game",
+      "Board",
+      "Piece",
+      "Player",
+      "Victory"
+    ]
+  },
+  {
+    "name": "Connect4",
+    "superclasses": "Game",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Hold the rules for the game Connect4"
+    ],
+    "collaborators": [
+      "Game",
+      "Board",
+      "Piece",
+      "Player",
+      "Victory"
+    ]
+  }
+]

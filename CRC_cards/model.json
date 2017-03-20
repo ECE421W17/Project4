@@ -40,7 +40,7 @@
   },
   {
     "name": "Board",
-    "superclasses": "",
+    "superclasses": "Observable",
     "subclasses": "",
     "type": 1,
     "responsibilities": [

@@ -63,4 +63,20 @@ class Board
         valid_columns_post_cond
         res
     end
+
+    def pattern_found_pre_cond(pattern)
+        assert(pattern.length <= @n_rows, 'Pattern cannot be larger than the number of rows')
+        assert(pattern.length <= @n_cols, 'Pattern cannot be larger than the number of columns')
+    end
+
+    def pattern_found_post_cond
+    end
+
+    def pattern_found(pattern)
+        pattern_found_pre_cond(pattern)
+        # implement
+        # returns the positions of the pattern or nil
+        pattern_found_post_cond
+        check_class_invariants
+    end
 end

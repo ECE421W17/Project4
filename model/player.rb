@@ -1,3 +1,7 @@
+require 'test/unit/assertions'
+
+include Test::Unit::Assertions
+
 class Player
 
     attr_accessor :category, :winning_pattern, :number

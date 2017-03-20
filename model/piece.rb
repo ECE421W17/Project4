@@ -1,3 +1,7 @@
+require 'test/unit/assertions'
+
+include Test::Unit::Assertions
+
 class Piece
 
     attr_accessor :category

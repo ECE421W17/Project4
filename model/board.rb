@@ -1,8 +1,11 @@
+require 'observer'
 require 'test/unit/assertions'
 
 include Test::Unit::Assertions
 
 class Board
+
+    include Observable
 
     def check_class_invariants
         assert(@n_rows > 0, 'Number of rows must be greater than zero')

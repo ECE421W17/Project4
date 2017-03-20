@@ -45,6 +45,7 @@ class Game
 
     def initialize(n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories)
         initialize_pre_cond(player_categories)
+        @victory = nil
         @board = Board.new(n_rows, n_cols)
         @players = player_categories.zip(player_patterns).map do |cat, pattern|
             Player.new(cat, pattern)
@@ -68,14 +69,13 @@ class Game
         player = @players[player_number - 1]
         piece = Piece.new(player.category)
         @board.add_piece(col, piece)
-        # If a player wins after this move, return a Victory object
         make_move_post_cond
         winner
     end
 
     def winner
         # Determine if any player has won (its winning condition is met)
-        # and return a Victory object if yes, nil otherwise
+        # set the Victory object accordingly
     end
 
 end

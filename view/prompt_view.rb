@@ -1,6 +1,6 @@
 require 'observer'
 
-class ErrorPromptView
+class PromptView
 	def check_class_invariants
 
 	end

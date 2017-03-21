@@ -1,6 +1,6 @@
 require 'observer'
 
-class View
+class MenuView
 	def check_class_invariants
 
 	end

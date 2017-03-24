@@ -23,4 +23,12 @@ class Piece
         check_class_invariants
     end
 
+    def ==(other)
+        other && (@category == other.category)
+    end
+
+    def to_s
+        @category.to_s
+    end
+
 end

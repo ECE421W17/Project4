@@ -8,19 +8,20 @@ class TestModel
 
     def self.test_board
         b = Board.new(8,7)
-        b.add_piece(2, Piece.new(:T))
-        b.add_piece(2, Piece.new(:O))
-        b.add_piece(2, Piece.new(:T))
-        b.add_piece(2, Piece.new(:O))
-        b.add_piece(2, Piece.new(:T))
-        b.add_piece(2, Piece.new(:O))
-        b.add_piece(2, Piece.new(:T))
-        b.add_piece(1, Piece.new(:T))
-        b.add_piece(0, Piece.new(:O))
+        b.add_piece(2, :T)
+        b.add_piece(2, :O)
+        b.add_piece(2, :T)
+        b.add_piece(2, :O)
+        b.add_piece(2, :T)
+        b.add_piece(2, :O)
+        b.add_piece(2, :T)
+        b.add_piece(1, :T)
+        b.add_piece(0, :O)
         pos = b.positions
         cols = b.valid_columns
         pat = b.pattern_found([:T,:T,:T,:T])
         pat2 = b.pattern_found([:T,:O,:T,:O])
+        pat3 = b.pattern_found([:T,:T])
         puts cols, pos
     end
 

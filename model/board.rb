@@ -109,9 +109,7 @@ class Board
     end
 
     def find_linear_pattern(line, pattern)
-        pattern_index = line.each_cons(pattern.length).to_a.index do |cons|
-            cons.zip(pattern).each {|piece, cat| piece && piece.category == cat}
-        end
+        pattern_index = line.each_cons(pattern.length).to_a.index(pattern)
         pattern_index ? pattern.length.times.map{|i| pattern_index + i} : nil
     end
 end

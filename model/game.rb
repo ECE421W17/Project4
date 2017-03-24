@@ -2,7 +2,6 @@ require 'test/unit/assertions'
 
 require_relative 'player'
 require_relative 'board'
-require_relative 'piece'
 require_relative 'victory'
 
 include Test::Unit::Assertions
@@ -67,8 +66,7 @@ class Game
         make_move_pre_cond(player_number, col)
         # implement
         player = @players[player_number - 1]
-        piece = Piece.new(player.category)
-        @board.add_piece(col, piece)
+        @board.add_piece(col, player.category)
         make_move_post_cond
         winner
     end

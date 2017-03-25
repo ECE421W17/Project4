@@ -3,7 +3,7 @@ require_relative 'game'
 class OttoNToot < Game
 
     def categories
-        [:T, :O]
+        [:O, :T]
     end
 
     def player_patterns

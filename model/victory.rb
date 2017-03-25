@@ -7,6 +7,8 @@ class Victory
     # Shows the player who won and the positions in the board
     # where their winning pattern is
 
+    attr_accessor :winner, :positions
+
     def check_class_invariants
         assert(@winner, 'Victory must have a winning player')
         assert(@positions, 'Victory must have winning positions')

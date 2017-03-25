@@ -4,7 +4,7 @@ include Test::Unit::Assertions
 
 class Player
 
-    attr_accessor :category, :winning_pattern, :number
+    attr_accessor :category, :winning_pattern
 
     def check_class_invariants
         assert(@category, 'Player must have a category')
@@ -24,4 +24,13 @@ class Player
         initialize_post_cond
         check_class_invariants
     end
+
+    def ==(other)
+        if !other || (other.class != self.class)
+            return false
+        end
+
+        other.category == category && other.winning_pattern == winning_pattern
+    end
+
 end

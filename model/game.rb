@@ -8,6 +8,11 @@ include Test::Unit::Assertions
 
 class Game
 
+    include Observable
+    # Game passes the following information to its observers:
+    # 1. The board positions, as a 2-dimensional array of nils and symbols
+    # 2. A Victory object with the winner. If there is no winner yet, this is nil
+
     def categories
         []
     end
@@ -42,13 +47,13 @@ class Game
         end
     end
 
-    def initialize(n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories)
+    def initialize(views, n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories)
         initialize_pre_cond(player_categories)
-        @victory = nil
         @board = Board.new(n_rows, n_cols)
         @players = player_categories.zip(player_patterns).map do |cat, pattern|
             Player.new(cat, pattern)
         end
+        views.each {|v| add_observer(v)}
         initialize_post_cond
         check_class_invariants
     end
@@ -64,16 +69,26 @@ class Game
 
     def make_move(player_number, col)
         make_move_pre_cond(player_number, col)
-        # implement
         player = @players[player_number - 1]
         @board.add_piece(col, player.category)
+
+        changed
+        notify_observers(@board.positions, winner)
+
         make_move_post_cond
-        winner
     end
 
     def winner
         # Determine if any player has won (its winning condition is met)
-        # set the Victory object accordingly
+        # and return the corresponding Victory object if yes, nil otherwise
+        @players.each do |player|
+            winning_positions = @board.pattern_found(player.winning_pattern)
+            if winning_positions
+                return Victory.new(player, winning_positions)
+            end
+        end
+
+        nil
     end
 
 end

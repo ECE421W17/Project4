@@ -6,6 +6,20 @@ require_relative '../model/board'
 require_relative '../model/otto_n_toot'
 require_relative '../model/connect4'
 
+class MockView
+    attr_accessor :victory, :board
+
+    def initialize
+        @board = nil
+        @victory = nil
+    end
+
+    def update(positions, victory)
+        @board = positions
+        @victory = victory
+    end
+end
+
 class TestModel
 
     def self.test_board
@@ -62,13 +76,42 @@ class TestModel
     end
 
     def self.test_game
-        ont = OttoNToot.new
-        cfour = Connect4.new(7, 8, [:Colour2, :Colour1])
-        ont.make_move(1, 3)
-        cfour.make_move(2, 1)
+        tv = MockView.new
+        ont = OttoNToot.new([tv], 4,4)
+        goal_board = [
+            [nil,nil, :T,nil],
+            [nil,nil, :O,nil],
+            [nil, :O, :T,nil],
+            [ :O, :T, :T, :O],
+        ]
+
+        moves = [
+            [1, 0],
+            [2, 1],
+            [1, 1],
+            [2, 2],
+            [2, 2],
+            [1, 2],
+            [2, 2]
+        ]
+        winning_move = [1, 3]
+
+        moves.each do |player_nbr, col|
+            ont.make_move(player_nbr, col)
+            assert(!tv.victory, 'Nobody should have won yet')
+        end
+
+        ont.make_move(*winning_move)
+
+        vic = tv.victory
+        winner = Player.new(:O, [:O,:T,:T,:O])
+        assert(vic, 'someone should have won')
+        assert(vic.winner == winner, 'Player 1 should have won')
+        assert(tv.board == goal_board, 'Board is wrong')
+        winner_positions = 4.times.map {|j| [3,j]}
+        assert(vic.positions == winner_positions, 'Winning position is in the wrong place')
     end
 
 end
 
-TestModel.test_board
 TestModel.test_game

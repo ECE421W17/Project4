@@ -4,8 +4,8 @@ require_relative 'player'
 include Test::Unit::Assertions
 
 class VirtualPlayer < Player
-    def initialize(category, winning_pattern)
-    	super(category, winning_pattern)
+    def initialize(category, winning_pattern, isVirtual)
+    	super(category, winning_pattern, isVirtual)
     end
 
     ##Algorithm for computerized player
@@ -52,6 +52,7 @@ class VirtualPlayer < Player
 					return i
 				end
 			end
+			board.remove_piece(i, category)
 		end
 		return validColumn[0]
     end

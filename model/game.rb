@@ -48,12 +48,14 @@ class Game
         end
     end
 
-    def initialize(views, n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories, modes)
+    def initialize(views, n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories, AI)
         initialize_pre_cond(player_categories)
         @board = Board.new(n_rows, n_cols)
         @players = player_categories.zip(player_patterns, modes).map do |cat, pattern, isVirtual|
             Player.new(cat, pattern, isVirtual)
         end
+        @AI = Object.const_get(AI)
+
         views.each {|v| add_observer(v)}
         initialize_post_cond
         check_class_invariants
@@ -72,7 +74,12 @@ class Game
         make_move_pre_cond(player_number, col)
         player = @players[player_number - 1]
         if(player.isVirtual)
-            col = VirtualPlayer.makemove(@board, @players, player_number)
+            begin
+                col = @AI.makemove(@board, @players, player_number)
+            rescue
+                puts "Invalid Algorithm Name"
+                raise "Invalid Algorithm Name"
+            end
         end
         @board.add_piece(col, player.category)
 

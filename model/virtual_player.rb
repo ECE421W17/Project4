@@ -50,6 +50,7 @@ class VirtualPlayer
 			end
 		end
 
+
 		#check is the move will lead to other player to win
 		validColumn.each do |i|
 			board.add_piece(i, cPlayer.category)

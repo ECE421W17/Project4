@@ -3,6 +3,7 @@ require 'test/unit/assertions'
 require_relative 'player'
 require_relative 'board'
 require_relative 'victory'
+require_relative 'virtual_player'
 
 include Test::Unit::Assertions
 
@@ -71,7 +72,7 @@ class Game
         make_move_pre_cond(player_number, col)
         player = @players[player_number - 1]
         if(player.isVirtual)
-            col = player.makemove(@board, this)
+            col = VirtualPlayer.makemove(@board, @players, player_number)
         end
         @board.add_piece(col, player.category)
 

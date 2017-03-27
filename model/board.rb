@@ -131,8 +131,18 @@ class Board
     end
 
     def find_linear_pattern(line, pattern)
-        pattern_index = line.each_cons(pattern.length).to_a.index(pattern)
-        pattern_index ? pattern.length.times.map{|i| pattern_index + i} : nil
+        slices = line.each_cons(pattern.length).to_a
+        pattern_index = slices.index(pattern)
+        if pattern_index
+            return pattern.length.times.map{|i| pattern_index + i}
+        end
+
+        pattern_index_reverse = slices.index(pattern.reverse)
+        if pattern_index_reverse
+            return pattern.length.times.map{|i| pattern_index_reverse + i}.reverse
+        end
+
+        nil
     end
 
     def diagonal_indices(n_rows, n_cols)

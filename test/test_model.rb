@@ -62,7 +62,9 @@ class TestModel
         pat2 = b.pattern_found([:T,:O,:T,:O])
         pat3 = b.pattern_found([:O,:O,:O])
         pat4 = b.pattern_found([:O,:O])
-        puts pos, cols, pat, pat2, pat3, pat4
+        pat5 = b.pattern_found([:F,:O,:T,:O])
+        pat6 = b.pattern_found([:T,:T,:F])
+        puts pos, cols, pat, pat2, pat3, pat4, pat5, pat6
 
         t = [
             [1, 2, 3, 4],
@@ -114,4 +116,4 @@ class TestModel
 
 end
 
-TestModel.test_game
+TestModel.test_board

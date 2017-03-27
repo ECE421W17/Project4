@@ -53,6 +53,15 @@ class Board
         check_class_invariants
     end
 
+    def remove_piece(col, piece)
+
+        idx = @column[col].index(nil)
+        if (idx == nil)
+            idx = n_rows
+        end
+        @column[col][idx-1] = nil
+    end
+
     def column_full?(col)
         !@columns[col].index(nil)
     end

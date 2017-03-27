@@ -47,11 +47,11 @@ class Game
         end
     end
 
-    def initialize(views, n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories)
+    def initialize(views, n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories, modes)
         initialize_pre_cond(player_categories)
         @board = Board.new(n_rows, n_cols)
-        @players = player_categories.zip(player_patterns).map do |cat, pattern|
-            Player.new(cat, pattern)
+        @players = player_categories.zip(player_patterns, modes).map do |cat, pattern, isVirtual|
+            Player.new(cat, pattern, isVirtual)
         end
         views.each {|v| add_observer(v)}
         initialize_post_cond
@@ -70,6 +70,9 @@ class Game
     def make_move(player_number, col)
         make_move_pre_cond(player_number, col)
         player = @players[player_number - 1]
+        if(player.isVirtual)
+            col = player.makemove(@board, this)
+        end
         @board.add_piece(col, player.category)
 
         changed

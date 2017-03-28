@@ -2,10 +2,14 @@
 
 require 'gtk2'
 
+require_relative '../model/otto_n_toot.rb'
+require_relative '../model/victory'
+require_relative '../controller/controller'
+
 class OttoNTootView
 
 
-  X = "X"
+  T = "T"
   O = "O"
 
   def initialize
@@ -16,7 +20,7 @@ class OttoNTootView
 # Call this function before using any other GTK+ functions in your GUI
 # applications. It will initialize everything needed to operate the toolkit
 # and parses some standard #command line options. argv are adjusted accordingly
-#so your own code will never see those standard arguments. # attr :glade
+# so your own code will never see those standard arguments. # attr :glade
 
       @builder = Gtk::Builder::new
 #http://ruby-gnome2.sourceforge.jp/hiki.cgi?Gtk%3A%3ABuilder
@@ -25,6 +29,8 @@ class OttoNTootView
 
 
      @blankTile = "   "
+
+    #  @controller = Controller.new(self, OttoNToot)
 
 
 
@@ -44,7 +50,7 @@ class OttoNTootView
 #
 # Step 9: last Step, get the "new" menu item to start a new game
 #
-      menu = @builder.get_object("menuitem2")
+      menu = @builder.get_object("menuitem3")
       menu.signal_connect( "activate" ) { setUpTheBoard }
 
 
@@ -57,7 +63,7 @@ class OttoNTootView
       }
 
 #
-# Step 8: We'll say that X has the first move
+# Step 8: We'll say that T has the first move
 #
 #
       setUpTheBoard
@@ -68,14 +74,14 @@ class OttoNTootView
   end
 
 
-  def setUpTheBoard
-
-      0.upto(41) { |i|
-         @builder.get_object("button" + i.to_s).set_label(@blankTile);
-      }
-      @x = 0
-      @o = 1
-      @turn = @x
+  def setUpTheBoard (otherPlayer = Player)
+      # @controller = Controller.new(self, OttoNToot, otherPlayer)
+      # 0.upto(41) { |i|
+      #    @builder.get_object("button" + i.to_s).set_label(@blankTile);
+      # }
+      # @t = 0
+      # @o = 1
+      # @turn = @t
   end
 
 
@@ -84,30 +90,31 @@ class OttoNTootView
 #
 #
   def button_clicked(tileNumber)
-   #
-   #
-   # Step 5: set up some simple logic to flip the tiles according
-   #   to whose turn it is
-   #
-   #
+    #
+    #
+    # Step 5: set up some simple logic to flip the tiles according
+    #   to whose turn it is
+    #
+    #
+
 
     tmp = @builder.get_object("button" + tileNumber.to_s).label
     if tmp == @blankTile
-       if @turn == @x
+       if @turn == @t
           @turn = @o
-          @builder.get_object("button" + tileNumber.to_s).set_label(X)
+          @builder.get_object("button" + tileNumber.to_s).set_label(T)
        else
-          @turn = @x
+          @turn = @t
           @builder.get_object("button" + tileNumber.to_s).set_label(O)
        end
     end
 
     if win?
       system("clear")
-      if @turn == @x
+      if @turn == @t
         popup ("Player O is the winner")
       else
-        popup ("Player X is the winner")
+        popup ("Player T is the winner")
       end
     end
   end

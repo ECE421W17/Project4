@@ -7,18 +7,18 @@ include Test::Unit::Assertions
 class Controller
 
     def check_class_invariants
-        assert_not_empty(@views, 'There must be at least one view')
+        assert_not_empty(@view, 'There must be a view')
         assert(@game, 'The controller must have a game')
     end
 
-    def initialize(views, game)
-        @views = views
+    def initialize(view, game, player = Player)
+        @view = view
         @game = game
         check_class_invariants
+        @game.add_observer(view)
     end
 
     def add_view(new_view)
-        @views.push(new_view)
         @game.add_observer(new_view)
         check_class_invariants
     end

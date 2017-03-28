@@ -55,11 +55,11 @@ class Board
 
     def remove_piece(col, piece)
 
-        idx = @column[col].index(nil)
+        idx = @columns[col].index(nil)
         if (idx == nil)
-            idx = n_rows
+            idx = @n_rows
         end
-        @column[col][idx-1] = nil
+        @columns[col][idx-1] = nil
     end
 
     def column_full?(col)

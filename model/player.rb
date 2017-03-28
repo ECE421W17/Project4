@@ -26,6 +26,14 @@ class Player
         check_class_invariants
     end
 
+    def getWinningPattern
+        winning_pattern
+    end
+
+    def getCategory
+        category
+    end
+
     def ==(other)
         if !other || (other.class != self.class)
             return false

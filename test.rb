@@ -1,12 +1,16 @@
 require 'gtk2'
 
+# TODO: Remove?
+require_relative 'controller/controller.rb'
+require_relative 'model/otto_n_toot.rb'
+
 class TestView
     def init(controller)
         # TODO: Assert non-nil
         @controller = controller
         
         # TODO: Remove? Is this needed? Or inconsistent with MVC?
-        @controller.add_view(this)
+        # @controller.add_view(this)
         @game = nil
 
         @command_string = nil
@@ -102,7 +106,18 @@ window.signal_connect("destroy") {
 
 btn = Gtk::Button.new("Test")
 btn.signal_connect("clicked") {
-    tv = TestView.new() # TODO: Pass in controller
+    # tv = TestView.new() # TODO: Pass in controller
+    # tv.show
+
+    # game = Game.new([], 7, 8, [:Colour1, :Colour2], "VirtualPlayer")
+    game = OttoNToot.new([], 7, 8, [:O, :T], "2Player", "VirtualPlayer")
+
+    controller = Controller.new([], game)
+
+    tv = TestView.new(controller)
+
+    controller.add_view(tv)
+
     tv.show
 }
 

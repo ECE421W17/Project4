@@ -6,19 +6,7 @@ require_relative '../model/board'
 require_relative '../model/otto_n_toot'
 require_relative '../model/connect4'
 
-class MockView
-    attr_accessor :victory, :board
-
-    def initialize
-        @board = nil
-        @victory = nil
-    end
-
-    def update(positions, victory)
-        @board = positions
-        @victory = victory
-    end
-end
+require_relative 'mock_view'
 
 class TestModel
 

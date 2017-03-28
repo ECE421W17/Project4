@@ -1,21 +1,28 @@
 require 'test/unit/assertions'
 
 require_relative '../model/game'
+require_relative '../model/connect4'
+require_relative '../model/otto_n_toot'
 
 include Test::Unit::Assertions
 
 class Controller
+
+    attr_accessor :next_player
 
     def check_class_invariants
         assert_not_empty(@view, 'There must be a view')
         assert(@game, 'The controller must have a game')
     end
 
-    def initialize(view, game, player = Player)
+    def initialize(view, game, virtual_nbr)
         @view = view
-        @game = game
+        game_mode = [1,2].map {|player_nbr| player_nbr == virtual_nbr}
+        @game = game == :Connect4 ?
+            Connect4.new(views = [view], mode = game_mode) :
+            OttoNToot.new(views = [view], mode = game_mode)
+        @next_player = 1
         check_class_invariants
-        @game.add_observer(view)
     end
 
     def add_view(new_view)
@@ -23,14 +30,15 @@ class Controller
         check_class_invariants
     end
 
-	def notify_pre_cond
+	def update_model_pre_cond
 	end
 
-	def notify_post_cond
+	def update_model_post_cond
 	end
 
     # Views call this method in their event handlers
-	def notify(player_number, column_number)
-        @game.make_move(player_number, column_number)
+	def update_model(column_number)
+        @game.make_move(@next_player, column_number)
+        @next_player = @next_player == 1 ? 2 : 1
 	end
 end

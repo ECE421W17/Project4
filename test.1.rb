@@ -1,9 +1,17 @@
 require 'gtk2'
 
-class PromptView
+# TODO: Remove?
+require_relative 'controller/controller.rb'
+require_relative 'model/otto_n_toot.rb'
+
+class TestView
     def init(controller)
         # TODO: Assert non-nil
         @controller = controller
+        
+        # TODO: Remove? Is this needed? Or inconsistent with MVC?
+        # @controller.add_view(this)
+        @game = nil
 
         @command_string = nil
         @output_label = nil
@@ -26,10 +34,16 @@ class PromptView
                 if !column_number.nil?
                     column_number = column_number.strip
 
-                    @controller.notify(player_number.to_i, column_number.to_i)
+                    # @game.make_move(player_number, column_number) # TODO: Do this
+                    # @controller.notify(player_number, column_number) # Or this (?) - preferably this
                     
                     return "Adding move to column #{column_number} for player #{player_number}" 
                 end
+            end
+        when "show"
+            # TODO: Implement?
+            if !args.nil?
+                return "show command: #{args.strip}"
             end
         else
         end
@@ -73,9 +87,15 @@ class PromptView
         window.add(vbox)
         window.show_all 
     end
+
+    def update(new_model)
+        # TODO: Remove
+        puts "Updating..."
+
+        @game = new_model
+    end
 end
 
-# Example:
 Gtk.init
 
 window = Gtk::Window.new("Command Line Interface")
@@ -86,11 +106,19 @@ window.signal_connect("destroy") {
 
 btn = Gtk::Button.new("Test")
 btn.signal_connect("clicked") {
-    # *****
-    # This is the esential aspect; if the View is instantiated and a controller passed in, it should work
-    pv = PromptView.new() # TODO: Pass in controller
-    pv.show
-    # *****
+    # tv = TestView.new() # TODO: Pass in controller
+    # tv.show
+
+    # game = Game.new([], 7, 8, [:Colour1, :Colour2], "VirtualPlayer")
+    game = OttoNToot.new([], 7, 8, [:O, :T], "2Player", "VirtualPlayer")
+
+    controller = Controller.new([], game)
+
+    tv = TestView.new(controller)
+
+    controller.add_view(tv)
+
+    tv.show
 }
 
 vbox = Gtk::VBox.new()

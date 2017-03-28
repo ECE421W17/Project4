@@ -6,7 +6,7 @@ class TestController
 
     def self.test_controller
         tv = MockView.new
-        cont = Controller.new([tv], :OttoNToot, true)
+        cont = Controller.new([tv], :OttoNToot, false)
 
         cont.update_model(3)
         cont.update_model(4)

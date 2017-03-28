@@ -1,22 +1,37 @@
 require 'gtk2'
 
 class TestView
-    def init
+    def init(controller)
+        # TODO: Assert non-nil
+        @controller = controller
+        @controller.add_view(this)
+
+        @game = nil
+
         @command_string = nil
         @output_label = nil
 
         @output = nil # TODO: Remove if uneeded
     end
 
-    def show
-        # Gtk.init
+    def parse_command(command_string)
+        command = command_string.slice(/(\S)+/)
+        args = command_string.slice(/ (\S)+/)
+        case command
+        when "show"
+            if !args.nil?
+                return "show command: #{args.strip}"
+            end
+        else
+        end
 
+        return "Error: Command not recognized"
+    end
+
+    def show
         # ----- Window -----
         window = Gtk::Window.new("Command Line Interface")
         window.border_width = 10
-        # window.signal_connect("destroy") {
-        #     Gtk.main_quit
-        # }
         # -----
 
 
@@ -30,14 +45,14 @@ class TestView
         end
         entry.signal_connect("key-press-event") do |entry, key|
             if key.keyval == 65293
+                @output = parse_command(@command_string)
+                @output_label.text = @output
 
                 # TODO: Run command; this is for testing
-                Thread.new do
-                    @output = `#{@command_string}`
-                    puts @output
-
-                    @output_label.text = @output
-                end
+                # Thread.new do
+                #     @output = `#{@command_string}`
+                #     @output_label.text = @output
+                # end
             end
         end
         # -----
@@ -54,8 +69,13 @@ class TestView
 
         window.add(vbox)
         window.show_all 
+    end
 
-        # Gtk.main
+    def update(new_model)
+        # TODO: Remove
+        puts "Updating..."
+
+        @game = new_model
     end
 end
 
@@ -69,7 +89,7 @@ window.signal_connect("destroy") {
 
 btn = Gtk::Button.new("Test")
 btn.signal_connect("clicked") {
-    tv = TestView.new
+    tv = TestView.new()
     tv.show
 }
 

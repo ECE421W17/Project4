@@ -13,7 +13,10 @@ class OttoNTootView
     if __FILE__ == $0
       Gtk.init
 
-#Call this function before using any other GTK+ functions in your GUI applications. It will initialize everything needed to operate the toolkit and parses some standard #command line options. argv are adjusted accordingly so your own code will never see those standard arguments. # attr :glade
+# Call this function before using any other GTK+ functions in your GUI
+# applications. It will initialize everything needed to operate the toolkit
+# and parses some standard #command line options. argv are adjusted accordingly
+#so your own code will never see those standard arguments. # attr :glade
 
       @builder = Gtk::Builder::new
 #http://ruby-gnome2.sourceforge.jp/hiki.cgi?Gtk%3A%3ABuilder
@@ -87,6 +90,7 @@ class OttoNTootView
    #   to whose turn it is
    #
    #
+
     tmp = @builder.get_object("button" + tileNumber.to_s).label
     if tmp == @blankTile
        if @turn == @x
@@ -100,8 +104,31 @@ class OttoNTootView
 
     if win?
       system("clear")
-      puts "YOU ARE A WINNER" ## exercise: design a pop up winner window
+      if @turn == @x
+        popup ("Player O is the winner")
+      else
+        popup ("Player X is the winner")
+      end
     end
+  end
+
+
+  def popup(message)
+
+    dialog = Gtk::Dialog.new
+    label = Gtk::Label.new(message)
+    dialog.vbox.add(label)
+    # Following is a button to the dialog that allows user to restart. Unsure if
+    # desired. Isn't currently able to close the dialog after clicking
+    # button = Gtk::Button.new("New 2 Player")
+    # button.signal_connect('clicked') {
+    #   setUpTheBoard
+    # }
+    # dialog.vbox.add(button)
+    dialog.show_all
+    dialog.run
+    dialog.destroy
+
   end
 
 

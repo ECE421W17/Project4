@@ -13,9 +13,10 @@ class Controller
 
     def initialize(view, game, player = Player)
         @view = view
-        @game = game
+        @game = game.new
         check_class_invariants
         @game.add_observer(view)
+        @player1 = Player.new(":0")
     end
 
     def add_view(new_view)

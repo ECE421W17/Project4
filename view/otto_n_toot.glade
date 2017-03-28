@@ -23,14 +23,28 @@
                     <property name="visible">True</property>
                     <child>
                       <object class="GtkMenuItem" id="menuitem2">
-                        <property name="label">New 1 Player</property>
+                        <property name="label">New 1 Player Connect4</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkMenuItem" id="menuitem3">
-                        <property name="label">New 2 Player</property>
+                        <property name="label">New 2 Player Connect4</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="menuitem5">
+                        <property name="label">New 1 Player OttoNToot</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="menuitem6">
+                        <property name="label">New 2 Player OttoNToot</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                       </object>

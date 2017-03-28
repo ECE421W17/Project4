@@ -33,6 +33,9 @@ class OttoNTootView
     #  @controller = Controller.new(self, OttoNToot)
 
 
+    # game = Game.new
+    # game.make_move(@o, 1)
+
 
 
 #
@@ -97,12 +100,12 @@ class OttoNTootView
     #
     #
 
-
     tmp = @builder.get_object("button" + tileNumber.to_s).label
     if tmp == @blankTile
        if @turn == @t
           @turn = @o
-          @builder.get_object("button" + tileNumber.to_s).set_label(T)
+          # @builder.get_object("button" + tileNumber.to_s).set_label(T)
+          Gtk.modify@builder.get_object("button" + tileNumber.to_s)
        else
           @turn = @t
           @builder.get_object("button" + tileNumber.to_s).set_label(O)
@@ -139,43 +142,30 @@ class OttoNTootView
   end
 
 
-#
-# Step 6: Write a method to determine if we have a winning board. We'll do it the
-#         "brute force" way for illestration purposes
-#
-#        Exercise: What is a more elegant way to do this? (Hint: magic square)
-#
-#
-  def win?
+  def update (positions, winner)
+    puts positions
 
-     return threes(1,2,3) ||
-            threes(4,5,6) ||
-            threes(7,8,9) ||
-            threes(1,4,7) ||
-            threes(2,5,8) ||
-            threes(3,6,9) ||
-            threes(1,5,9) ||
-            threes(7,5,3)
-  end
+    positions.each_with_index do | x, xi |
+      x.each_with_index do | y, yi |
+        @builder.get_object("button" + (xi*length(x) + yi)).set_label(y)
+      end
+    end
 
-
-#
-# Step 7: Write a method to determine if any 3 given tiles are a winning combination
-#
-#
-#
-  def threes(a,b,c)
-
-    t1 = @builder.get_object("button" + a.to_s).label
-    t2 = @builder.get_object("button" + b.to_s).label
-    t3 = @builder.get_object("button" + c.to_s).label
-    return (t1 != @blankTile && t2 != @blankTile && t3 != @blankTile) && (t1 == t2 && t2 == t3)
-
+    if winner != nil
+      # winner.positions.each_with_index do | x, xi |
+      #   if xi % 2 != 0
+      #     next
+      #   else
+      #     # Set color somehow
+      #     @builder.get_object("button" + (x*length(positions[0]) + winner.positions[xi + 1])).
+      #   end
+      # end
+      popup("Player placing " + winner.winner.category + " to get pattern " + winner.winner.pattern + " has won!"
+    end
   end
 
 
   def gtk_main_quit
-    puts "Say goodnight Gracie!"
     Gtk.main_quit()
   end
 

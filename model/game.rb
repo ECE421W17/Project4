@@ -48,7 +48,7 @@ class Game
         end
     end
 
-    def initialize(views, n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories)
+    def initialize(n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories, isVirtual = False)
         initialize_pre_cond(player_categories)
         @board = Board.new(n_rows, n_cols)
         @players = player_categories.zip(player_patterns, modes).map do |cat, pattern, isVirtual|
@@ -56,7 +56,6 @@ class Game
         end
         #@AI = Object.const_get(AI)
 
-        views.each {|v| add_observer(v)}
         initialize_post_cond
         check_class_invariants
     end

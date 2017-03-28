@@ -8,15 +8,15 @@ class TestView
         @output = nil # TODO: Remove if uneeded
     end
 
-    def run
-        Gtk.init
+    def show
+        # Gtk.init
 
         # ----- Window -----
         window = Gtk::Window.new("Command Line Interface")
         window.border_width = 10
-        window.signal_connect("destroy") {
-            Gtk.main_quit
-        }
+        # window.signal_connect("destroy") {
+        #     Gtk.main_quit
+        # }
         # -----
 
 
@@ -52,28 +52,31 @@ class TestView
         vbox.pack_start @output_label, :expand => false, :fill => false, :padding => 0
         # -----
 
-
-        # -----
-        btn = Gtk::Button.new("Test")
-        btn.signal_connect("clicked") {
-            other_window = Gtk::Window.new("Test Window")
-            other_window.border_width = 10
-
-            other_label = Gtk::Label.new("Test Label")
-            other_window.add(other_label)
-
-            other_window.show_all
-        }
-
-        vbox.pack_start btn, :expand => false, :fill => false, :padding => 0
-        # -----
-
         window.add(vbox)
         window.show_all 
 
-        Gtk.main
+        # Gtk.main
     end
 end
 
-tv = TestView.new
-tv.run
+Gtk.init
+
+window = Gtk::Window.new("Command Line Interface")
+window.border_width = 10
+window.signal_connect("destroy") {
+    Gtk.main_quit
+}
+
+btn = Gtk::Button.new("Test")
+btn.signal_connect("clicked") {
+    tv = TestView.new
+    tv.show
+}
+
+vbox = Gtk::VBox.new()
+vbox.pack_start btn, :expand => false, :fill => false, :padding => 0
+
+window.add(vbox)
+window.show_all
+
+Gtk.main

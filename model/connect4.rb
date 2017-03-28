@@ -13,10 +13,10 @@ class Connect4 < Game
     end
 
     def default_n_rows
-        7
+        6
     end
 
     def default_n_cols
-        8
+        7
     end
 end

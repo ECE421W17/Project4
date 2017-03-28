@@ -30,11 +30,7 @@ class OttoNTootView
 
      @blankTile = "   "
 
-    #  @controller = Controller.new(self, OttoNToot)
-
-
-    # game = Game.new
-    # game.make_move(@o, 1)
+     @controller = Controller.new([self], :OttoNToot, false)
 
 
 
@@ -53,8 +49,17 @@ class OttoNTootView
 #
 # Step 9: last Step, get the "new" menu item to start a new game
 #
+      menu = @builder.get_object("menuitem2")
+      menu.signal_connect( "activate" ) { setUpTheBoard(:Connect4, true) }
+
       menu = @builder.get_object("menuitem3")
-      menu.signal_connect( "activate" ) { setUpTheBoard }
+      menu.signal_connect( "activate" ) { setUpTheBoard(:Connect4, false) }
+
+      menu = @builder.get_object("menuitem5")
+      menu.signal_connect( "activate" ) { setUpTheBoard(:OttoNToot, true) }
+
+      menu = @builder.get_object("menuitem6")
+      menu.signal_connect( "activate" ) { setUpTheBoard(:OttoNToot, false) }
 
 
 #
@@ -77,7 +82,9 @@ class OttoNTootView
   end
 
 
-  def setUpTheBoard (otherPlayer = Player)
+  def setUpTheBoard (gameType = :OttoNToot, virtual_player = false)
+      @controller = Controller.new([self], gameType, virtual_player)
+
       # @controller = Controller.new(self, OttoNToot, otherPlayer)
       # 0.upto(41) { |i|
       #    @builder.get_object("button" + i.to_s).set_label(@blankTile);
@@ -100,26 +107,28 @@ class OttoNTootView
     #
     #
 
-    tmp = @builder.get_object("button" + tileNumber.to_s).label
-    if tmp == @blankTile
-       if @turn == @t
-          @turn = @o
-          # @builder.get_object("button" + tileNumber.to_s).set_label(T)
-          Gtk.modify@builder.get_object("button" + tileNumber.to_s)
-       else
-          @turn = @t
-          @builder.get_object("button" + tileNumber.to_s).set_label(O)
-       end
-    end
+    @controller.update_model(tileNumber % 7)
 
-    if win?
-      system("clear")
-      if @turn == @t
-        popup ("Player O is the winner")
-      else
-        popup ("Player T is the winner")
-      end
-    end
+    # tmp = @builder.get_object("button" + tileNumber.to_s).label
+    # if tmp == @blankTile
+    #    if @turn == @t
+    #       @turn = @o
+    #       # @builder.get_object("button" + tileNumber.to_s).set_label(T)
+    #       Gtk.modify@builder.get_object("button" + tileNumber.to_s)
+    #    else
+    #       @turn = @t
+    #       @builder.get_object("button" + tileNumber.to_s).set_label(O)
+    #    end
+    # end
+    #
+    # if win?
+    #   system("clear")
+    #   if @turn == @t
+    #     popup ("Player O is the winner")
+    #   else
+    #     popup ("Player T is the winner")
+    #   end
+    # end
   end
 
 
@@ -147,7 +156,8 @@ class OttoNTootView
 
     positions.each_with_index do | x, xi |
       x.each_with_index do | y, yi |
-        @builder.get_object("button" + (xi*length(x) + yi)).set_label(y)
+        puts "updating button " + (xi*length(x) + yi)
+        @builder.get_object("button" + (xi*length(x) + yi)).set_label(y.to_s)
       end
     end
 
@@ -160,7 +170,7 @@ class OttoNTootView
       #     @builder.get_object("button" + (x*length(positions[0]) + winner.positions[xi + 1])).
       #   end
       # end
-      popup("Player placing " + winner.winner.category + " to get pattern " + winner.winner.pattern + " has won!"
+      popup("Player placing " + winner.winner.category + " to get pattern " + winner.winner.pattern + " has won!")
     end
   end
 

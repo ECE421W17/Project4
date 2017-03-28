@@ -48,7 +48,7 @@ class Game
         end
     end
 
-    def initialize(views, n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories, mode = "2Player", ai = "VirtualPlayer")
+    def initialize(views, mode = "2Player", n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories, ai = "VirtualPlayer")
         initialize_pre_cond(player_categories)
         @board = Board.new(n_rows, n_cols)
     
@@ -83,7 +83,6 @@ class Game
         if(player.isVirtual)
             begin
                 col = @ai.makemove(@board, @players, player_number)
-                #col = VirtualPlayer.makemove(@board, @players, player_number)
             rescue
                 puts "Invalid Algorithm Name"
                 raise "Invalid Algorithm Name"

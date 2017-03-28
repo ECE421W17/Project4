@@ -4,21 +4,40 @@ class TestView
     def init(controller)
         # TODO: Assert non-nil
         @controller = controller
+        
+        # TODO: Remove? Is this needed? Or inconsistent with MVC?
         @controller.add_view(this)
-
         @game = nil
 
         @command_string = nil
         @output_label = nil
-
-        @output = nil # TODO: Remove if uneeded
+        @output = nil
     end
 
     def parse_command(command_string)
-        command = command_string.slice(/(\S)+/)
-        args = command_string.slice(/ (\S)+/)
+        command_regex = /\S+/
+        arguments_regex = /(\s+\S+)+/
+
+        command = command_string.slice(command_regex)
+        args = command_string.slice(arguments_regex)
         case command
+        when "move"
+            if !args.nil?
+                args = args.strip
+
+                player_number = args.slice(command_regex)
+                column_number = args.slice(arguments_regex)
+                if !column_number.nil?
+                    column_number = column_number.strip
+
+                    # @game.make_move(player_number, column_number) # TODO: Do this
+                    # @controller.notify(player_number, column_number) # Or this (?) - preferably this
+                    
+                    return "Adding move to column #{column_number} for player #{player_number}" 
+                end
+            end
         when "show"
+            # TODO: Implement?
             if !args.nil?
                 return "show command: #{args.strip}"
             end
@@ -47,12 +66,6 @@ class TestView
             if key.keyval == 65293
                 @output = parse_command(@command_string)
                 @output_label.text = @output
-
-                # TODO: Run command; this is for testing
-                # Thread.new do
-                #     @output = `#{@command_string}`
-                #     @output_label.text = @output
-                # end
             end
         end
         # -----
@@ -89,7 +102,7 @@ window.signal_connect("destroy") {
 
 btn = Gtk::Button.new("Test")
 btn.signal_connect("clicked") {
-    tv = TestView.new()
+    tv = TestView.new() # TODO: Pass in controller
     tv.show
 }
 

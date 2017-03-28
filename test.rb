@@ -1,6 +1,8 @@
 require 'gtk2'
 
-Gtk.init
+# Gtk.init
+window = Gtk::Window.new("My ruby-gnome2 project")
+
 button = Gtk::Button.new("Hello World")
 button.signal_connect("clicked") { 
     puts "HelloWorld"

@@ -22,18 +22,19 @@ class VirtualPlayer
     	#cPlayer => current player, player controlled by AI logic
     	#oPlayer => human player, controlled by Human
     	cPlayer = players[cPlayerNumber - 1]
+    	#if cPlayerNu
     	oPlayer = nil
     	players.each do |i|
-    		if !i.category = cPlayer.category
+    		if i.getCategory != cPlayer.getCategory
     			oPlayer = i
     		end
     	end
 
     	#check is there a winning move for cPlayer
 		validColumn.each do |i|
-			board.add_piece(i, cPlayer.category)
-			winning_positions = board.pattern_found(cPlayer.winning_pattern)
-			board.remove_piece(i, cPlayer.category)
+			board.add_piece(i, cPlayer.getCategory)
+			winning_positions = board.pattern_found(cPlayer.getWinningPattern)
+			board.remove_piece(i, cPlayer.getCategory)
 			if winning_positions
 				return i
 			end
@@ -42,9 +43,9 @@ class VirtualPlayer
 
 		#No winning move, check whether a winning move for oPlayer
 		validColumn.each do |i|
-			board.add_piece(i, oPlayer.category)
-			winning_positions = board.pattern_found(oPlayer.winning_pattern)
-			board.remove_piece(i, oPlayer.category)
+			board.add_piece(i, oPlayer.getCategory)
+			winning_positions = board.pattern_found(oPlayer.getWinningPattern)
+			board.remove_piece(i, oPlayer.getCategory)
 			if winning_positions
 				return i
 			end
@@ -53,18 +54,18 @@ class VirtualPlayer
 
 		#check is the move will lead to other player to win
 		validColumn.each do |i|
-			board.add_piece(i, cPlayer.category)
+			board.add_piece(i, cPlayer.getCategory)
 			vCol = board.valid_columns
 			vCol.each do |j|
-				board.add_piece(j, oPlayer.category)
-				winning_positions = board.pattern_found(oPlayer.winning_pattern)
-				board.remove_piece(j, oPlayer.category)
-				if winning_positions
-					board.remove_piece(i, cPlayer.category) 
+				board.add_piece(j, oPlayer.getCategory)
+				winning_positions = board.pattern_found(oPlayer.getWinningPattern)
+				board.remove_piece(j, oPlayer.getCategory)
+				if !winning_positions
+					board.remove_piece(i, cPlayer.getCategory) 
 					return i
 				end
 			end
-			board.remove_piece(i, cPlayer.category)
+			board.remove_piece(i, cPlayer.getCategory)
 		end
 		return validColumn[validColumn.length/2]
     end

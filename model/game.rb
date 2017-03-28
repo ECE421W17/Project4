@@ -48,13 +48,20 @@ class Game
         end
     end
 
-    def initialize(views, n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories)
+    def initialize(views, n_rows = default_n_rows, n_cols = default_n_cols, player_categories = categories, mode = "2Player", ai = "VirtualPlayer")
         initialize_pre_cond(player_categories)
         @board = Board.new(n_rows, n_cols)
+    
+        #Default as two player
+        modes = [false, false]
+        if mode == "1Player"
+            modes = [false, true]
+        end
+
         @players = player_categories.zip(player_patterns, modes).map do |cat, pattern, isVirtual|
             Player.new(cat, pattern, isVirtual)
         end
-        #@AI = Object.const_get(AI)
+        @ai = Object.const_get(ai)
 
         views.each {|v| add_observer(v)}
         initialize_post_cond
@@ -75,8 +82,8 @@ class Game
         player = @players[player_number - 1]
         if(player.isVirtual)
             begin
-                #col = @AI.makemove(@board, @players, player_number)
-                col = VirtualPlayer.makemove(@board, @players, player_number)
+                col = @ai.makemove(@board, @players, player_number)
+                #col = VirtualPlayer.makemove(@board, @players, player_number)
             rescue
                 puts "Invalid Algorithm Name"
                 raise "Invalid Algorithm Name"

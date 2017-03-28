@@ -2,13 +2,13 @@ require_relative 'game'
 
 class Connect4 < Game
     def categories
-        [:Colour1, :Colour2]
+        [:Red, :Blue]
     end
 
     def player_patterns
         [
-            [:Colour1, :Colour1, :Colour1, :Colour1],
-            [:Colour2, :Colour2, :Colour2, :Colour2]
+            [:Red, :Red, :Red, :Red],
+            [:Blue, :Blue, :Blue, :Blue]
         ]
     end
 

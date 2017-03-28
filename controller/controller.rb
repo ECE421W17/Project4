@@ -18,10 +18,10 @@ class Controller
 
     def initialize(views, game, virtual_player)
         @views = views
-        game_mode = virtual_player ? '1Player' : '2Player'
+        @game_mode = virtual_player ? '1Player' : '2Player'
         @game = game == :Connect4 ?
-            Connect4.new(views = @views, mode = game_mode) :
-            OttoNToot.new(views = @views, mode = game_mode)
+            Connect4.new(views = @views, mode = @game_mode) :
+            OttoNToot.new(views = @views, mode = @game_mode)
         @next_player = 1
         check_class_invariants
     end
@@ -39,7 +39,15 @@ class Controller
 
     # Views call this method in their event handlers
 	def update_model(column_number)
+        if @game.board.column_full?(column_number)
+          return false
+        end
         @game.make_move(@next_player, column_number)
         @next_player = @next_player == 1 ? 2 : 1
+        if @game_mode == '1Player' && @next_player == 2
+          @game.make_move(@next_player, column_number)
+          @next_player = @next_player == 1 ? 2 : 1
+        end
+        true
 	end
 end

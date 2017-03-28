@@ -9,6 +9,8 @@ include Test::Unit::Assertions
 
 class Game
 
+    attr_accessor :board
+
     include Observable
     # Game passes the following information to its observers:
     # 1. The board positions, as a 2-dimensional array of nils and symbols
@@ -53,6 +55,7 @@ class Game
         initialize_pre_cond(player_categories)
         @board = Board.new(n_rows, n_cols)
 
+        views.each{|v| add_observer(v)}
         #Default as two player
         modes = [false, false]
         if mode == "1Player"

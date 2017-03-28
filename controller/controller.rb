@@ -11,16 +11,16 @@ class Controller
     attr_accessor :next_player
 
     def check_class_invariants
-        assert_not_empty(@view, 'There must be a view')
+        assert_not_empty(@views, 'There must be a view')
         assert(@game, 'The controller must have a game')
     end
 
-    def initialize(view, game, virtual_nbr)
-        @view = view
-        game_mode = [1,2].map {|player_nbr| player_nbr == virtual_nbr}
+    def initialize(views, game, virtual_player)
+        @views = views
+        game_mode = virtual_player ? '1Player' : '2Player'
         @game = game == :Connect4 ?
-            Connect4.new(views = [view], mode = game_mode) :
-            OttoNToot.new(views = [view], mode = game_mode)
+            Connect4.new(views = @views, mode = game_mode) :
+            OttoNToot.new(views = @views, mode = game_mode)
         @next_player = 1
         check_class_invariants
     end

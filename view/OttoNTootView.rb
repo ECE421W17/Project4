@@ -56,6 +56,10 @@ class OttoNTootView
       menu = @builder.get_object("menuitem6")
       menu.signal_connect( "activate" ) { setUpTheBoard(:OttoNToot, false) }
 
+      #put the CLI here
+      menu = @builder.get_object("imagemenuitem10")
+      menu.signal_connect( "activate" ) {  }
+
 
 #
 # set all the tiles on the TTT board to a "blank" value.
@@ -107,7 +111,7 @@ class OttoNTootView
     dialog = Gtk::Dialog.new
     label = Gtk::Label.new(message)
     dialog.vbox.add(label)
-    
+
     dialog.signal_connect('destroy') {
       destroyBlock.call
     }

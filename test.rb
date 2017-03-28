@@ -13,12 +13,10 @@ class TestView
 
         # ----- Window -----
         window = Gtk::Window.new("Command Line Interface")
-
+        window.border_width = 10
         window.signal_connect("destroy") {
             Gtk.main_quit
         }
-
-        window.border_width = 10
         # -----
 
 
@@ -48,9 +46,27 @@ class TestView
         @output_label = Gtk::Label.new
         # -----
 
+        # ----- Layout -----
         vbox = Gtk::VBox.new()
         vbox.pack_start entry, :expand => false, :fill => false, :padding => 0
         vbox.pack_start @output_label, :expand => false, :fill => false, :padding => 0
+        # -----
+
+
+        # -----
+        btn = Gtk::Button.new("Test")
+        btn.signal_connect("clicked") {
+            other_window = Gtk::Window.new("Test Window")
+            other_window.border_width = 10
+
+            other_label = Gtk::Label.new("Test Label")
+            other_window.add(other_label)
+
+            other_window.show_all
+        }
+
+        vbox.pack_start btn, :expand => false, :fill => false, :padding => 0
+        # -----
 
         window.add(vbox)
         window.show_all 

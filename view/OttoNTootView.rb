@@ -5,6 +5,7 @@ require 'gtk2'
 require_relative '../model/otto_n_toot.rb'
 require_relative '../model/victory'
 require_relative '../controller/controller'
+require_relative 'prompt_view.rb'
 
 
 # Inspired by lab 9 materials
@@ -58,7 +59,10 @@ class OttoNTootView
 
       #put the CLI here
       menu = @builder.get_object("imagemenuitem10")
-      menu.signal_connect( "activate" ) {  }
+      menu.signal_connect( "activate" ) {
+        pv = PromptView.new(@controller)
+        pv.show
+      }
 
 
 #
